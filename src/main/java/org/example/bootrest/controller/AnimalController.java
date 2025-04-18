@@ -1,5 +1,6 @@
 package org.example.bootrest.controller;
 
+import org.apache.coyote.BadRequestException;
 import org.example.bootrest.model.domain.Animal;
 import org.example.bootrest.model.dto.AnimalRequestDTO;
 import org.example.bootrest.service.AnimalService;
@@ -25,9 +26,11 @@ public class AnimalController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody AnimalRequestDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody AnimalRequestDTO dto) throws BadRequestException {
         String story = "";
         animalService.create(dto.toAnimal(story));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED); // 201
+        //JPA - 객체 : 저장된 데이터 자체를 돌려주면서 201.
+        //MyBatis - 201 상태만 준다.
     }
 }
